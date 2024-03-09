@@ -1,0 +1,312 @@
+import { Image } from 'antd';
+
+
+# JavaScript (ES6)
+
+
+1\. JavaScript (ES6):
+
+ES6 es la sexta edición del estándar de JavaScript, que introduce nuevas características para mejorar la legibilidad, la expresividad y la eficiencia del código. Algunos ejemplos de estas características son:
+
+-   Clases: Permiten crear estructuras de datos reutilizables con métodos y propiedades.
+
+
+```javascript
+class Persona {
+  constructor(nombre, apellido) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+  }
+
+  saludar() {
+    console.log(`Hola, mi nombre es ${this.nombre} ${this.apellido}`);
+  }
+}
+
+const persona = new Persona('Juan', 'Pérez');
+persona.saludar(); // Imprime "Hola, mi nombre es Juan Pérez"
+
+```
+
+-   Funciones de flecha: Son una forma más concisa de escribir funciones, especialmente cuando se usan como callbacks o en expresiones lambda.
+
+```javascript
+const suma = (a, b) => a + b;
+console.log(suma(2, 3)); // Imprime 5
+
+const personas = [
+  { nombre: 'Juan', edad: 20 },
+  { nombre: 'María', edad: 25 },
+];
+
+const mayoresDeEdad = personas.filter(persona => persona.edad >= 18);
+console.log(mayoresDeEdad); // Imprime [{ nombre: 'Juan', edad: 20 }, { nombre: 'María', edad: 25 }]
+
+```
+
+-   Plantillas literales: Permiten crear cadenas de texto multilínea con interpolación de variables de forma más sencilla.
+
+
+```javascript
+const nombre = 'Juan';
+const apellido = 'Pérez';
+
+const saludo = `Hola, ${nombre} ${apellido}!
+
+¿Cómo estás?`;
+
+console.log(saludo);
+
+```
+
+2\. Let vs. Var:
+
+`let` y `var` son dos palabras clave para declarar variables en JavaScript. La principal diferencia entre ellas es el alcance de las variables:
+
+-   `var`: Tiene un alcance global o de función, lo que significa que la variable se puede acceder desde cualquier lugar dentro de la función o desde el ámbito global.
+
+
+```javascript
+var nombre = 'Juan';
+
+function saludar() {
+  console.log(`Hola, ${nombre}`);
+}
+
+saludar(); // Imprime "Hola, Juan"
+
+console.log(nombre); // Imprime "Juan"
+
+```
+
+-   `let`: Tiene un alcance de bloque, lo que significa que la variable solo se puede acceder dentro del bloque en el que se declara.
+
+
+```javascript
+let nombre = 'Juan';
+
+function saludar() {
+  let nombre = 'María';
+  console.log(`Hola, ${nombre}`);
+}
+
+saludar(); // Imprime "Hola, María"
+
+console.log(nombre); // Imprime "Juan"
+
+```
+
+3\. Objetos:
+
+Los objetos son una colección de propiedades (clave-valor) que permiten agrupar datos relacionados. Se pueden crear de diferentes maneras:
+
+-   Literal de objeto:
+
+```javascript
+const persona = {
+  nombre: 'Juan',
+  apellido: 'Pérez',
+  edad: 20,
+};
+
+```
+-   Función constructora:
+
+```javascript
+function Persona(nombre, apellido, edad) {
+  this.nombre = nombre;
+  this.apellido = apellido;
+  this.edad = edad;
+}
+
+const persona = new Persona('Juan', 'Pérez', 20);
+
+```
+
+## Manejo del DOM desde JavaScript
+
+El DOM (Document Object Model) es una API que permite a JavaScript interactuar con el contenido de una página web, como elementos HTML, CSS y JavaScript. El DOM representa el contenido de la página web como un árbol de objetos, donde cada elemento HTML tiene un nodo correspondiente en el árbol.
+
+Accediendo a elementos del DOM:
+
+-   getElementById: Obtiene un elemento por su ID.
+
+
+```javascript
+const elemento = document.getElementById('titulo');
+
+```
+
+-   getElementsByClassName: Obtiene una lista de elementos por su clase.
+
+
+```javascript
+const elementos = document.getElementsByClassName('boton');
+
+```
+
+-   querySelector: Obtiene un elemento que coincide con un selector de CSS.
+
+
+```javascript
+const elemento = document.querySelector('.titulo');
+
+```
+
+## Modificando elementos del DOM:
+
+-   textContent: Obtiene o modifica el contenido textual de un elemento.
+
+```javascript
+const contenido = elemento.textContent;
+elemento.textContent = 'Nuevo título';
+
+```
+
+-   innerHTML: Obtiene o modifica el contenido HTML de un elemento.
+
+```javascript
+const contenido = elemento.innerHTML;
+elemento.innerHTML = '<p>Este es un nuevo párrafo</p>';
+
+```
+
+-   style: Accede a las propiedades de estilo de un elemento.
+
+
+```javascript
+elemento.style.color = 'red';
+elemento.style.fontSize = '16px';
+
+```
+
+## Añadiendo y eliminando elementos del DOM:
+
+-   appendChild: Añade un elemento al final de otro elemento.
+
+```javascript
+const nuevoElemento = document.createElement('p');
+nuevoElemento.textContent = 'Este es un nuevo párrafo';
+document.body.appendChild(nuevoElemento);
+
+```
+-   removeChild: Elimina un elemento del DOM.
+
+
+```javascript
+const elementoAEliminar = document.getElementById('elementoAEliminar');
+elementoAEliminar.parentNode.removeChild(elementoAEliminar);
+
+```
+
+## Manejo de eventos:
+
+-   addEventListener: Añade un escuchador de eventos a un elemento.
+
+```javascript
+elemento.addEventListener('click', () => {
+  console.log('Se ha hecho clic en el elemento');
+});
+
+```
+
+## Ejemplos de manejo del DOM:
+
+-   Cambiar el color de un elemento al hacer clic:
+
+```javascript
+const elemento = document.getElementById('titulo');
+
+elemento.addEventListener('click', () => {
+  elemento.style.color = 'red';
+});
+
+```
+
+-   Mostrar un mensaje al pasar el mouse sobre un elemento:
+
+```javascript
+const elemento = document.getElementById('imagen');
+
+elemento.addEventListener('mouseover', () => {
+  alert('¡Hola!');
+});
+
+```
+
+-   Agregar un nuevo elemento al DOM:
+
+```javascript
+const nuevoElemento = document.createElement('p');
+nuevoElemento.textContent = 'Este es un nuevo párrafo';
+
+document.body.appendChild(nuevoElemento);
+```
+
+## Eventos en JavaScript
+
+¿Qué son los eventos en JavaScript?
+
+Los eventos son acciones que se producen en una página web, como clics del mouse, pulsaciones de teclas, movimientos del mouse, carga de la página, etc. JavaScript permite detectar y manejar estos eventos para crear páginas web interactivas.
+
+Tipos de eventos:
+
+-   Eventos del mouse: click, mouseover, mouseout, mousedown, mouseup,mousemove
+-   Eventos del teclado: keydown, keyup, keypress
+-   Eventos del formulario: submit, change, focus, blur
+-   Eventos de la ventana: load, resize, scroll
+-   Eventos del DOM: DOMContentLoaded, focusin, focusout
+
+Manejo de eventos:
+
+Para manejar un evento, se utiliza la siguiente sintaxis:
+
+
+```javascript
+elemento.addEventListener('nombre_del_evento', function_a_ejecutar);
+
+```
+
+-   `elemento`: El elemento al que se le quiere asociar el evento.
+-   `nombre_del_evento`: El nombre del evento que se quiere detectar.
+-   `function_a_ejecutar`: La función que se ejecutará cuando se produzca el evento.
+
+
+```javascript
+const boton = document.getElementById('boton');
+
+boton.addEventListener('click', function() {
+  alert('Se ha hecho clic en el botón');
+});
+
+```
+
+## stopPropagation y preventDefault:
+
+-   `stopPropagation`: Evita que el evento se propague a sus elementos padre.
+-   `preventDefault`: Evita la acción predeterminada del evento.
+
+```javascript
+const enlace = document.getElementById('enlace');
+
+enlace.addEventListener('click', function(e) {
+  e.preventDefault();
+  alert('Se ha hecho clic en el enlace');
+});
+
+```
+
+## Eventos con delegación:
+
+La delegación de eventos permite asociar un evento a un elemento padre y ejecutar una función para todos sus elementos hijos que coincidan con un selector.
+
+```javascript
+const contenedor = document.getElementById('contenedor');
+
+contenedor.addEventListener('click', function(e) {
+  if (e.target.tagName === 'A') {
+    alert('Se ha hecho clic en un enlace');
+  }
+});
+```
+

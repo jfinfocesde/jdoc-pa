@@ -1,0 +1,589 @@
+# Programación funcional
+
+La programación funcional es un paradigma de programación que se basa en la idea de que todo el código se puede expresar como funciones. En este paradigma, se evita el uso de variables mutables y se da preferencia a las funciones puras, que son aquellas que siempre devuelven el mismo resultado para los mismos argumentos.
+
+Algunos principios de la programación funcional:
+
+-   Funciones puras: Las funciones no deben tener efectos secundarios, es decir, no deben modificar el estado del programa fuera de la función.
+-   Inmutabilidad: Los datos no deben ser modificados una vez creados.
+-   Composición: Las funciones se pueden combinar para crear nuevas funciones más complejas.
+
+Beneficios de la programación funcional:
+
+-   Código más modular y reusable: Las funciones son unidades de código independientes que se pueden reutilizar en diferentes contextos.
+-   Código más fácil de probar: Las funciones puras son más fáciles de probar que las funciones que tienen efectos secundarios.
+-   Código más eficiente: Las funciones puras se pueden optimizar más fácilmente que las funciones que tienen efectos secundarios.
+
+Ejemplos de programación funcional en JavaScript:
+
+-   Funciones map, filter y reduce: Estas funciones son herramientas muy útiles para trabajar con arrays.
+-   Funciones de orden superior: Estas funciones son funciones que toman otras funciones como argumentos o que devuelven otras funciones.
+
+# Funciones tradicionales en JavaScript
+
+Las funciones tradicionales en JavaScript se definen utilizando la palabra clave `function`. La sintaxis básica es la siguiente:
+
+
+```javascript
+function nombreFuncion(parametro1, parametro2) {
+  // Código de la función
+  return resultado;
+}
+
+```
+
+Ejemplo:
+
+```javascript
+function sumar(a, b) {
+  return a + b;
+}
+
+const resultado = sumar(2, 3);
+console.log(resultado); // 5
+
+```
+
+# Funciones de flecha (Arrow functions)
+
+Las funciones de flecha son una nueva forma de definir funciones en JavaScript que se introdujeron en ES6. Se caracterizan por su sintaxis más concisa y por algunas diferencias en su comportamiento con respecto a las funciones tradicionales.
+
+Sintaxis:
+
+```javascript
+(parametro1, parametro2) => {
+  // Código de la función
+  return resultado;
+}
+
+```
+
+Ejemplo:
+
+```javascript
+const sumar = (a, b) => a + b;
+
+const resultado = sumar(2, 3);
+console.log(resultado); // 5
+
+```
+
+Diferencias con las funciones tradicionales:
+
+-   Sintaxis más concisa: No es necesario usar la palabra clave `function` ni los paréntesis alrededor del nombre de la función.
+-   Vinculación de `this`: El valor de `this` dentro de una función de flecha es el mismo que el de la función padre.
+-   Retorno implícito: Si la función solo tiene una línea de código, se puede omitir la palabra clave `return`.
+
+# Uso de `this` en funciones JavaScript
+
+La palabra clave `this` en JavaScript se utiliza para hacer referencia al objeto actual dentro de una función. El valor de `this` puede variar dependiendo del contexto en el que se ejecuta la función:
+
+-   En una función global: `this` hace referencia al objeto `window`.
+-   En un método de un objeto: `this` hace referencia al objeto que contiene el método.
+-   En un evento: `this` hace referencia al elemento que desencadenó el evento.
+-   En una función flecha: `this` hereda el valor de `this` de la función padre.
+
+## Ejemplos:
+
+1\. Función global:
+
+
+```javascript
+function saludar() {
+  console.log(this); // Imprime el objeto `window`
+}
+
+saludar();
+
+```
+
+2\. Método de un objeto:
+
+
+```javascript
+const persona = {
+  nombre: "Juan",
+  saludar() {
+    console.log(this.nombre); // Imprime "Juan"
+  }
+};
+
+persona.saludar();
+
+```
+
+3\. Evento:
+
+```javascript
+const boton = document.getElementById("boton");
+
+boton.addEventListener("click", function() {
+  console.log(this); // Imprime el elemento `boton`
+});
+
+```
+
+4\. Función flecha:
+
+```javascript
+const persona = {
+  nombre: "Juan",
+  saludar() {
+    const flecha = () => {
+      console.log(this.nombre); // Imprime "Juan"
+    };
+
+    flecha();
+  }
+};
+
+persona.saludar();
+```
+
+
+# Callbacks
+
+
+-   Definición: Un callback es una función que se pasa como argumento a otra función para que se ejecute posteriormente, después de que la primera función haya terminado su trabajo.
+-   Uso: Los callbacks se utilizan habitualmente en la programación asíncrona para gestionar el resultado de una operación después de que se haya completado. Proporcionan una forma de indicar la finalización y, de forma potencial, devolver datos.
+-   Ejemplo:
+
+```javascript
+function obtenerDatos(callback) {
+  // Simula una operación asíncrona (por ejemplo, obtener datos de un servidor)
+  setTimeout(() => {
+    const datos = { nombre: "Juan", edad: 30 };
+    callback(datos); // Ejecuta la función callback con los datos
+  }, 2000); // Simula un retraso de 2 segundos
+}
+
+obtenerDatos((datos) => {
+  console.log(datos); // Registra { nombre: "Juan", edad: 30 } después de 2 segundos
+});
+```
+
+# Promesas en JavaScript
+
+¿Qué son las promesas?
+
+Las promesas son un objeto en JavaScript que representa el resultado eventual (o el fallo) de una operación asíncrona y su valor resultante. Son una herramienta poderosa para manejar el flujo de control en aplicaciones asíncronas, facilitando la escritura de código más legible y mantenible.
+
+¿Cómo funcionan las promesas?
+
+Las promesas tienen tres estados:
+
+-   Pendiente: Este es el estado inicial de una promesa. Indica que la operación asíncrona aún no ha terminado.
+-   Resuelto: Este estado indica que la operación asíncrona ha terminado con éxito. La promesa tiene un valor que se puede obtener utilizando el método `.then()`.
+-   Rechazado: Este estado indica que la operación asíncrona ha fallado. La promesa tiene un error que se puede obtener utilizando el método `.catch()`.
+
+Ejemplo:
+
+```javascript
+function obtenerDatos() {
+  return new Promise((resolve, reject) => {
+    // Simula una operación asíncrona (por ejemplo, obtener datos de un servidor)
+    setTimeout(() => {
+      const datos = { nombre: "Juan", edad: 30 };
+      resolve(datos); // Resuelve la promesa con los datos
+    }, 2000); // Simula un retraso de 2 segundos
+  });
+}
+
+obtenerDatos()
+  .then((datos) => {
+    console.log(datos); // Registra { nombre: "Juan", edad: 30 } después de 2 segundos
+  })
+  .catch((error) => {
+    console.error(error); // Maneja cualquier error
+  });
+
+```
+
+En este ejemplo, la función `obtenerDatos` devuelve una promesa. La promesa se resuelve con el valor `{ nombre: "Juan", edad: 30 }` después de 2 segundos. El método `.then()` se utiliza para manejar el resultado exitoso de la promesa, mientras que el método `.catch()` se utiliza para manejar cualquier error.
+
+¿Qué es `.then()`?
+
+El método `.then()` se utiliza para registrar una función que se ejecutará cuando la promesa se resuelva con éxito. La función que se pasa al método `.then()` recibe un argumento que contiene el valor de la promesa.
+
+Ejemplo:
+
+```javascript
+obtenerDatos()
+  .then((datos) => {
+    console.log(`Nombre: ${datos.nombre}`); // Registra "Nombre: Juan"
+    console.log(`Edad: ${datos.edad}`); // Registra "Edad: 30"
+  });
+
+```
+
+En este ejemplo, la función que se pasa al método `.then()` imprime el nombre y la edad del usuario.
+
+¿Qué es `.catch()`?
+
+El método `.catch()` se utiliza para registrar una función que se ejecutará cuando la promesa se rechace con un error. La función que se pasa al método `.catch()` recibe un argumento que contiene el error.
+
+Ejemplo:
+
+```javascript
+obtenerDatos()
+  .then((datos) => {
+    console.log(datos);
+  })
+  .catch((error) => {
+    console.error(`Error: ${error.message}`);
+  });
+
+```
+
+En este ejemplo, la función que se pasa al método `.catch()` imprime un mensaje de error si la promesa se rechaza.
+
+¿Qué es `await`?
+
+`Await` es una palabra clave que se utiliza con las promesas para esperar a que se resuelvan antes de continuar con la ejecución del código. Se puede usar dentro de una función `async`.
+
+Ejemplo:
+
+```javascript
+async function mostrarDatos() {
+  const datos = await obtenerDatos();
+  console.log(datos);
+}
+
+mostrarDatos();
+
+```
+
+En este ejemplo, la función `mostrarDatos` es una función `async`. La palabra clave `await` se usa para esperar a que la promesa `obtenerDatos` se resuelva antes de continuar con la ejecución del código.
+
+Ventajas de usar promesas:
+
+-   Código más legible y mantenible: Las promesas permiten escribir código asíncrono de una manera más estructurada y fácil de leer.
+-   Manejo de errores más sencillo: Las promesas facilitan el manejo de errores en operaciones asíncronas.
+-   Encadenamiento de promesas: Las promesas se pueden encadenar para crear flujos de control más complejos.
+
+# Ejemplo de promesas en JavaScript
+
+Objetivo:
+
+Este ejemplo demostrará cómo usar promesas en JavaScript para manejar una operación asíncrona compleja, incluyendo el manejo de errores, el encadenamiento de promesas y el uso de `async` y `await`.
+
+Descripción:
+
+La aplicación simula la compra de un producto en línea. El proceso implica tres pasos:
+
+1.  Validar la tarjeta de crédito: Se verifica si la tarjeta de crédito es válida y tiene suficiente saldo.
+2.  Procesar el pago: Se realiza el cargo a la tarjeta de crédito.
+3.  Confirmar el pedido: Se envía un correo electrónico de confirmación al cliente.
+
+Código:
+
+```javascript
+// Función para validar la tarjeta de crédito
+function validarTarjeta(tarjeta) {
+  return new Promise((resolve, reject) => {
+    // Simula la validación de la tarjeta de crédito
+    setTimeout(() => {
+      if (tarjeta.numero === "1234567890" && tarjeta.cvv === "123") {
+        resolve(); // La tarjeta es válida
+      } else {
+        reject(new Error("Tarjeta de crédito no válida")); // La tarjeta no es válida
+      }
+    }, 2000); // Simula un retraso de 2 segundos
+  });
+}
+
+// Función para procesar el pago
+function procesarPago(tarjeta) {
+  return new Promise((resolve, reject) => {
+    // Simula el procesamiento del pago
+    setTimeout(() => {
+      console.log("Procesando pago...");
+      resolve(); // El pago se ha procesado correctamente
+    }, 2000); // Simula un retraso de 2 segundos
+  });
+}
+
+// Función para confirmar el pedido
+function confirmarPedido(correo) {
+  return new Promise((resolve, reject) => {
+    // Simula el envío de un correo electrónico de confirmación
+    setTimeout(() => {
+      console.log(`Enviando correo electrónico de confirmación a ${correo}...`);
+      resolve(); // El correo electrónico se ha enviado correctamente
+    }, 2000); // Simula un retraso de 2 segundos
+  });
+}
+
+// Función principal
+async function comprarProducto(tarjeta, correo) {
+  try {
+    // Valida la tarjeta de crédito
+    await validarTarjeta(tarjeta);
+
+    // Procesa el pago
+    await procesarPago(tarjeta);
+
+    // Confirma el pedido
+    await confirmarPedido(correo);
+
+    console.log("¡Compra realizada con éxito!");
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
+}
+
+// Simula la compra de un producto
+const tarjeta = {
+  numero: "1234567890",
+  cvv: "123",
+};
+
+const correo = "usuario@ejemplo.com";
+
+comprarProducto(tarjeta, correo);
+
+```
+
+Explicación:
+
+-   La función `validarTarjeta` devuelve una promesa que se resuelve si la tarjeta de crédito es válida y se rechaza si no lo es.
+-   La función `procesarPago` devuelve una promesa que se resuelve si el pago se ha procesado correctamente.
+-   La función `confirmarPedido` devuelve una promesa que se resuelve si el correo electrónico de confirmación se ha enviado correctamente.
+-   La función `comprarProducto` es una función `async` que utiliza `await` para esperar a que cada promesa se resuelva antes de continuar con la ejecución del código.
+-   Si se produce un error en cualquiera de las promesas, se captura en el bloque `catch` y se imprime un mensaje de error.
+
+En este ejemplo se han utilizado las siguientes características de las promesas:
+
+-   Manejo de errores: Se ha utilizado el bloque `catch` para manejar cualquier error que pueda ocurrir durante el proceso de compra.
+-   Encadenamiento de promesas: Se han encadenado las promesas para crear un flujo de control más complejo.
+-   **Uso de `async` y `await:** Se ha utilizado la función`async`y la palabra clave`await` para simplificar el código y hacerlo más legible.
+
+# Ejemplos para funciones básicas en JavaScript:
+----------------------------------------------
+
+## Funciones básicas:
+
+1\. alert():
+
+```javascript
+// Muestra un mensaje emergente con el texto "Hola mundo!"
+alert("¡Hola mundo!");
+
+```
+
+2\. confirm():
+
+```javascript
+// Pregunta al usuario si desea eliminar un archivo
+const respuesta = confirm("¿Estás seguro de que quieres eliminar este archivo?");
+
+// Si el usuario hace clic en "Aceptar", se elimina el archivo
+if (respuesta) {
+  // Eliminar el archivo
+} else {
+  // Cancelar la operación
+  console.log("El archivo no se ha eliminado");
+}
+
+```
+
+3\. prompt():
+
+```javascript
+// Pide al usuario que introduzca su nombre
+const nombre = prompt("Introduce tu nombre");
+
+// Muestra un mensaje en la consola con el nombre introducido
+console.log(`Hola, ${nombre}!`);
+
+```
+
+4\. console.log():
+
+```javascript
+// Imprime un mensaje en la consola del navegador
+console.log("Este es un mensaje en la consola");
+
+// También se pueden imprimir variables y objetos
+const numero = 10;
+console.log("El valor de la variable `numero` es:", numero);
+```
+
+2\. Funciones para trabajar con arrays:
+
+Array.prototype.forEach():
+
+```javascript
+const numeros = [1, 2, 3, 4, 5];
+
+// Recorre el array y muestra cada elemento en la consola
+numeros.forEach((numero) => {
+  console.log(numero);
+});
+
+```
+
+## Funciones para trabajar con arrays:
+
+Array.prototype.map():
+
+```javascript
+const cuadrados = numeros.map((numero) => numero * numero);
+
+// Devuelve un nuevo array con los cuadrados de cada elemento
+console.log(cuadrados); // [1, 4, 9, 16, 25]
+
+```
+
+Array.prototype.filter():
+
+```javascript
+const pares = numeros.filter((numero) => numero % 2 === 0);
+
+// Devuelve un nuevo array con los números pares del array original
+console.log(pares); // [2, 4]
+
+```
+
+Array.prototype.reduce():
+
+```javascript
+const suma = numeros.reduce((acumulador, numero) => acumulador + numero, 0);
+
+// Reduce el array a un único valor, que en este caso es la suma de todos los elementos
+console.log(suma); // 15
+```
+
+## Funciones para trabajar con strings:
+
+String.prototype.toUpperCase():
+
+```javascript
+const nombre = "juan";
+
+// Convierte el string a mayúsculas
+const nombreEnMayusculas = nombre.toUpperCase();
+
+console.log(nombreEnMayusculas); // JUAN
+
+```
+
+String.prototype.toLowerCase():
+
+```javascript
+const nombre = "JUAN";
+
+// Convierte el string a minúsculas
+const nombreEnMinusculas = nombre.toLowerCase();
+
+console.log(nombreEnMinusculas); // juan
+
+```
+
+String.prototype.charAt():
+
+```javascript
+const nombre = "Juan Pérez";
+
+// Devuelve el caracter en la posición indicada (en este caso, la letra "J")
+const primerCaracter = nombre.charAt(0);
+
+console.log(primerCaracter); // J
+
+```
+
+String.prototype.indexOf():
+
+```javascript
+const nombre = "Juan Pérez";
+
+// Devuelve la posición de la primera aparición de la subcadena indicada (en este caso, "Pérez")
+const posicionDePerez = nombre.indexOf("Pérez");
+
+console.log(posicionDePerez); // 6
+```
+
+## Funciones para trabajar con fechas:
+
+Date.now():
+
+```javascript
+// Devuelve la fecha y hora actual en milisegundos desde la época Unix
+const fechaActualEnMilisegundos = Date.now();
+
+console.log(fechaActualEnMilisegundos); // 1646946260000 (Ejemplo)
+
+```
+
+new Date():
+
+```javascript
+// Crea un nuevo objeto Date con la fecha y hora actual
+const fechaActual = new Date();
+
+console.log(fechaActual); // Fri Mar 03 2023 23:17:40 GMT-0500 (Eastern Standard Time) (Ejemplo)
+
+```
+
+Date.prototype.getFullYear():
+
+
+```javascript
+// Devuelve el año de un objeto Date
+const fechaActual = new Date();
+
+const añoActual = fechaActual.getFullYear();
+
+console.log(añoActual); // 2023 (Ejemplo)
+
+```
+
+Date.prototype.getMonth():
+
+```javascript
+// Devuelve el mes de un objeto Date (0 para enero, 11 para diciembre)
+const fechaActual = new Date();
+
+const mesActual = fechaActual.getMonth();
+
+console.log(mesActual); // 2 (marzo) (Ejemplo)
+
+```
+
+Date.prototype.getDate():
+
+```javascript
+// Devuelve el día del mes de un objeto Date
+const fechaActual = new Date();
+
+const diaActual = fechaActual.getDate();
+
+console.log(diaActual); // 3 (Ejemplo)
+```
+
+# Funciones de temporización:
+
+setTimeout():
+
+```javascript
+// Muestra un mensaje después de 2 segundos
+setTimeout(() => {
+  console.log("¡Hola mundo!");
+}, 2000);
+
+```
+
+setInterval():
+
+```javascript
+// Muestra la hora actual cada segundo
+const intervalo = setInterval(() => {
+  const fechaActual = new Date();
+  console.log(fechaActual.toLocaleTimeString());
+}, 1000);
+
+// Detiene el intervalo después de 10 segundos
+setTimeout(() => {
+  clearInterval(intervalo);
+}, 10000);
+```
