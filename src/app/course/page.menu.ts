@@ -11,7 +11,7 @@ interface itemsInfoType {
     submenu: subItemsInfoType[]
 }
 
-export const modedev = false
+export const modedev = true
 
 export const infoCourse = {
     title: "Programación Avanzada",
@@ -104,9 +104,60 @@ export const itemsInfo: itemsInfoType[] = [
                 label: "Contenido",
                 date: '2024-3-15',
             },
+            // {
+            //     href: "/course/activities/actividad4",
+            //     label: "Actividad 4",
+            //     date: '2024-3-15',
+            // },
+        ]
+    },    
+    {
+        href: "",
+        label: "Semana 6",
+        date: '2024-3-15',
+        submenu: [
             {
-                href: "/course/activities/actividad4",
-                label: "Actividad 4",
+                href: "/course/contents/semana6",
+                label: "Contenido",
+                date: '2024-3-15',
+            },
+            // {
+            //     href: "/course/activities/actividad4",
+            //     label: "Actividad 4",
+            //     date: '2024-3-15',
+            // },
+        ]
+    },    
+    {
+        href: "",
+        label: "Semana 7",
+        date: '2024-3-15',
+        submenu: [
+            {
+                href: "/course/contents/semana7",
+                label: "Contenido",
+                date: '2024-3-15',
+            },
+            // {
+            //     href: "/course/activities/actividad4",
+            //     label: "Actividad 4",
+            //     date: '2024-3-15',
+            // },
+        ]
+    },    
+    {
+        href: "",
+        label: "Proyecto",
+        date: '2024-3-15',
+        submenu: [
+            {
+                href: "/course/contents/proyecto/parte1",
+                label: "Parte 1",
+                date: '2024-3-15',
+            },
+            {
+                href: "/course/contents/proyecto/parte1",
+                label: "Parte 2",
                 date: '2024-3-15',
             },
         ]
