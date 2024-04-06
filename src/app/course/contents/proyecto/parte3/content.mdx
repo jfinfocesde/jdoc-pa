@@ -1,0 +1,95 @@
+# Pages Controller
+
+## Archivo auth.controller.ts
+
+```typescript
+import { Request, Response } from "express";
+
+export const pageRegister = async (req: Request, res: Response) => {
+  try {
+    res.render("auth/register");
+  } catch (error) {
+    res.status(500).send("Error al crear el usuario");
+  }
+};
+
+export const pageLogin = async (req: Request, res: Response) => {
+  try {
+    res.render("auth/login");
+  } catch (error) {
+    res.status(500).send("Error al crear el usuario");
+  }
+};
+```
+
+## Archivo user.controller.ts
+
+```typescript
+import { Request, Response } from 'express';
+import User from '../../models/user.model';
+
+export const pageGetUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find();
+        res.render('user/index', { users });
+    } catch (error) {
+        res.status(500).send('Error');
+    }
+};
+
+export const pageUpdateUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id);
+        res.render('user/edit', { user });
+    } catch (error) {
+        res.status(500).send('Error');
+    }
+};
+```
+
+# Pages Rutes
+
+## Archivo pages.routes.ts
+
+```typescript
+import express from "express";
+import authRoutes from "./auth.routes";
+import userRoutes from "./user.routes";
+
+const router = express.Router();
+
+router.use("/auth", authRoutes);
+router.use("/user", userRoutes);
+
+export default router;
+```
+
+## Archivo auth.routes.ts
+
+```typescript
+import express from "express";
+import { pageLogin, pageRegister } from "../controllers/auth.controller";
+
+const router = express.Router();
+
+router.get("/register", pageRegister);
+router.get("/login", pageLogin);
+
+export default router;
+```
+
+## Archivo user.routes.ts
+
+```typescript
+import express from 'express';
+import { pageGetUsers, pageUpdateUser } from '../controllers/user.controller';
+import { verifyJWT } from '../../api/controllers/auth.controller';
+
+const router = express.Router();
+
+router.get('/', verifyJWT, pageGetUsers);
+router.get('/edit/:id', verifyJWT, pageUpdateUser);
+
+export default router;
+```

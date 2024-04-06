@@ -1,0 +1,235 @@
+# Bases de datos NoSQL
+
+**NoSQL**, también conocido como "no solo SQL" o "no SQL", es un tipo de base de datos que **no se basa en el modelo relacional tradicional**. Esto significa que no utilizan el lenguaje SQL para realizar consultas y no siguen las reglas de normalización de datos.
+
+**Las bases de datos NoSQL se utilizan para almacenar y consultar datos de forma flexible y escalable.** Son ideales para aplicaciones que necesitan manejar grandes cantidades de datos no estructurados o semiestructurados, como documentos JSON, imágenes y vídeos.
+
+**Ventajas de las bases de datos NoSQL:**
+
+-   **Flexibilidad:** Admiten una variedad de tipos de datos y estructuras de datos.
+-   **Escalabilidad:** Pueden crecer horizontalmente para manejar grandes cantidades de datos.
+-   **Rendimiento:** Ofrecen un alto rendimiento para operaciones de lectura y escritura.
+-   **Simplicidad:** Son más fáciles de configurar y administrar que las bases de datos relacionales.
+**Desventajas de las bases de datos NoSQL:**
+
+-   **Falta de ACID:** No todas las bases de datos NoSQL ofrecen las mismas garantías de atomicidad, coherencia, aislamiento y durabilidad que las bases de datos relacionales.
+-   **Consistencia eventual:** Algunas bases de datos NoSQL pueden ofrecer una consistencia eventual, lo que significa que los datos pueden no estar actualizados en todos los nodos al mismo tiempo.
+-   **Seguridad:** La seguridad puede ser un problema en algunas bases de datos NoSQL, especialmente si no se configuran correctamente.
+
+# Tipos de bases de datos NoSQL
+
+Existen varios tipos de bases de datos NoSQL, cada una con sus propias características y ventajas:
+
+-   **Bases de datos documentales:** Almacenan datos en documentos JSON.
+-   **Bases de datos clave-valor:** Almacenan pares de clave-valor.
+-   **Bases de datos de columnas:** Almacenan datos en columnas.
+-   **Bases de datos de grafos:** Almacenan datos en forma de grafos.
+-   **Bases de datos de búsqueda:** Almacenan documentos y permiten realizar búsquedas de texto completo.
+
+# ¿Cuándo usar una base de datos NoSQL?
+
+Las bases de datos NoSQL son una buena opción para las siguientes aplicaciones:
+
+-   **Aplicaciones web a gran escala:** Las bases de datos NoSQL pueden escalar horizontalmente para manejar grandes cantidades de usuarios y datos.
+-   **Aplicaciones móviles:** Las bases de datos NoSQL pueden ser optimizadas para dispositivos móviles con recursos limitados.
+-   **Internet de las cosas (IoT):** Las bases de datos NoSQL pueden manejar grandes cantidades de datos no estructurados generados por dispositivos IoT.
+-   **Análisis de big data:** Las bases de datos NoSQL pueden usarse para almacenar y analizar grandes conjuntos de datos.
+
+# MongoDB: Una base de datos NoSQL popular
+
+**MongoDB** es una base de datos NoSQL de código abierto, orientada a documentos y multiplataforma. Se utiliza para almacenar y consultar datos de forma flexible y escalable.
+
+## **Características principales de MongoDB:**
+
+-   **Modelo de datos flexible:** Almacena datos en documentos JSON, lo que permite una estructura de datos flexible y adaptable.
+-   **Escalabilidad horizontal:** Puede escalarse horizontalmente para manejar grandes cantidades de datos y usuarios.
+-   **Alto rendimiento:** Ofrece un alto rendimiento para operaciones de lectura y escritura.
+-   **Facilidad de uso:** Es fácil de configurar, administrar y usar.
+-   **Disponibilidad:** Ofrece diferentes opciones de replicación y alta disponibilidad para garantizar la accesibilidad de los datos.
+## **¿Para qué se utiliza MongoDB?**
+
+MongoDB se utiliza para una amplia variedad de aplicaciones, incluyendo:
+
+-   **Aplicaciones web:** Almacenamiento de datos de usuarios, contenido y configuración.
+-   **Aplicaciones móviles:** Almacenamiento de datos local y sincronización con el servidor.
+-   **Internet de las cosas (IoT):** Almacenamiento de grandes cantidades de datos no estructurados generados por dispositivos IoT.
+-   **Análisis de big data:** Almacenamiento y análisis de grandes conjuntos de datos.
+-   **Juegos:** Almacenamiento de datos del juego y del jugador.
+## **¿En qué se diferencia MongoDB de las bases de datos relacionales?**
+
+Las bases de datos relacionales, como MySQL y PostgreSQL, utilizan un modelo de datos tabular con filas y columnas. MongoDB, por otro lado, utiliza un modelo de datos flexible basado en documentos JSON. Esto significa que MongoDB es más adecuado para almacenar datos no estructurados o semiestructurados.
+
+## MongoDB Atlas: Base de datos como servicio (DBaaS)
+
+**MongoDB Atlas** es una plataforma de base de datos como servicio (DBaaS) completamente administrada para MongoDB. Te permite crear, escalar y administrar bases de datos MongoDB de forma rápida y segura en la nube.
+
+**Características principales de MongoDB Atlas:**
+
+-   **Facilidad de uso:** No es necesario instalar, configurar o administrar la infraestructura de la base de datos.
+-   **Escalabilidad:** Puedes escalar tu base de datos verticalmente y horizontalmente para satisfacer tus necesidades.
+-   **Seguridad:** Tus datos están protegidos con encriptación en reposo y en tránsito, así como con controles de acceso granulares.
+-   **Alta disponibilidad:** MongoDB Atlas ofrece diferentes opciones de replicación para garantizar la accesibilidad de tus datos.
+-   **Desarrollador:** Te permite concentrarte en el desarrollo de aplicaciones sin preocuparte por la administración de la base de datos.
+
+
+##  **Sitio web oficial de MongoDB Atlas:** 
+
+[https://www.mongodb.com/atlas](https://www.mongodb.com/atlas)
+
+
+# CRUD con Mongoose, TypeScript y Node.js
+
+## **1\. Dependencias:**
+
+```bash
+npm install -D typescript ts-node mongoose @types/mongoose @types/node express @types/express
+```
+
+## **2\. Configuración de TypeScript:**
+
+Crea un archivo `tsconfig.json` con la siguiente configuración:
+
+```json
+{
+  "compilerOptions": {
+    "lib": [
+      "es2023"
+    ],
+    "module": "node16",
+    "target": "es2022",
+    "outDir": "build",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
+
+## **3\. Conexión a MongoDB:**
+
+En `src/db.ts`:
+
+```typescript
+import mongoose from 'mongoose';
+
+const connectionString = 'mongodb://localhost:27017/your_database_name'; // Reemplaza con tu conexión
+
+mongoose.connect(connectionString)
+.then(() => console.log('Database connected successfully'))
+.catch(err => console.error(err));
+
+export default mongoose;
+```
+
+## **4\. Esquema de Mongoose:**
+
+En `src/model.ts`:
+
+```typescript
+import mongoose from './db';
+
+interface User {
+  name: string;
+  email: string;
+}
+
+const userSchema = new mongoose.Schema<User>({
+  name: String,
+  email: String
+});
+
+export default mongoose.model<User>('User', userSchema);
+```
+
+## **5\. Servidor Node.js:**
+
+En `src/server.ts`:
+
+```typescript
+import express from 'express';
+import User from './model';
+
+const app = express();
+const port = 3000;
+
+// Ejemplo de operaciones CRUD
+
+// Create
+app.post('/users', async (req, res) => {
+  try {
+    const newUser = new User(req.body);
+    await newUser.save();
+    res.json(newUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+// Read all
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+// Read by ID
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+// Update by ID
+app.put('/users/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+// Delete by ID
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).send('User not found');
+    }
+    res.json(deletedUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+```
+
+## **6\. Compilación y ejecución:**
+
+```bash
+npx tsc
+node dist/server.js
+```

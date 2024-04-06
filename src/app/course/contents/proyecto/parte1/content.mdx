@@ -1,14 +1,188 @@
 import { Image } from 'antd';
 
-# Pacto pedagógico
+# Estructura
 
-El pacto pedagógico es un acuerdo que se establece entre el docente y los estudiantes al inicio de un curso, con el fin de establecer las normas, expectativas, responsabilidades y compromisos de todas las partes involucradas en el proceso de enseñanza-aprendizaje.
+## Carpetas y archivos 
+
+```bash
+api
+├── package-lock.json
+├── package.json
+├── .gitignore
+├── src
+│   ├── api
+│   │   ├── controllers
+│   │   │   ├── auth.controller.ts
+│   │   │   └── user.controller.ts
+│   │   └── routes
+│   │       ├── api.routes.ts
+│   │       ├── auth.routes.ts
+│   │       └── user.routes.ts
+│   ├── app.ts
+│   ├── models
+│   │   └── user.model.ts
+│   ├── pages
+│   │   ├── controllers
+│   │   │   ├── auth.controller.ts
+│   │   │   └── user.controller.ts
+│   │   ├── routes
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── pages.routes.ts
+│   │   │   └── user.routes.ts
+│   │   └── views
+│   │       ├── auth
+│   │       │   ├── login.ejs
+│   │       │   └── register.ejs
+│   │       ├── home.ejs
+│   │       ├── layouts
+│   │       │   ├── footer.ejs
+│   │       │   └── header.ejs
+│   │       └── user
+│   │           ├── edit.ejs
+│   │           └── index.ejs
+│   └── public
+│       └── index.html
+└── tsconfig.json
+```
+
+## Archivo package.json
+
+```json
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch src --exec ts-node src/app.ts",
+    "start": "shx rm -rf build && tsc && shx cp -r src/public build && shx cp -r package.json build && node build/app.js",
+    "build": "shx rm -rf build && tsc && shx cp -r src/public build && shx cp -r package.json build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.12.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  }
+}
+```
+
+## Archivo tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "lib": [
+      "es2023"
+    ],
+    "module": "node16",
+    "target": "es2022",
+    "outDir": "build",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
+
+## Archivo .env
+
+```bash
+ MONGODB_HOST = 'mongodb+srv://'
+ JWT_SECRET='secret'
+```
+
+## Archivo .gitignore
+
+```bash
+node_modules
+build
+```
 
 
- <Image
-    style={{borderRadius:10}}
-    preview={false}
-    width={'100%'}
-    src="https://www.ceupe.com/images/cabeceras/alianzas.jpg"
-  />
+# Archivo App.ts
+
+```typescript
+// Importar variables de entorno
+import dotenv from "dotenv";
+dotenv.config();
+
+// Importar módulos necesarios
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import path from "path";
+
+// Inicializar la aplicación Express
+const app = express();
+
+// Configurar middleware
+app.use(cors());
+app.use(express.json()); // Usar express.json() en lugar de bodyParser.json()
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Conectar a MongoDB
+mongoose.connect(process.env.MONGODB_HOST || "");
+
+// Configurar el motor de vistas 
+app.set("views", path.join(__dirname, "pages/views"));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+
+import { verifyJWT } from "./api/controllers/auth.controller";
+
+app.get("/home", verifyJWT, (req, res) => {
+  res.render("home");
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(`${__dirname}/public/index.html`);
+});
+
+import apiRoutes from "./api/routes/api.routes";
+app.use("/api", apiRoutes);
+
+import pagesRoutes from "./pages/routes/pages.routes";
+app.use("/", pagesRoutes);
+
+// Iniciar el servidor
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+```
+
+
 

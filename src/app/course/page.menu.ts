@@ -147,19 +147,52 @@ export const itemsInfo: itemsInfoType[] = [
     },    
     {
         href: "",
+        label: "Semana 8",
+        date: '2024-4-6',
+        submenu: [
+            {
+                href: "/course/contents/semana8",
+                label: "Contenido",
+                date: '2024-4-6',
+            },
+            // {
+            //     href: "/course/activities/actividad4",
+            //     label: "Actividad 4",
+            //     date: '2024-3-15',
+            // },
+        ]
+    },    
+    {
+        href: "",
         label: "Proyecto",
         date: '2024-3-15',
         submenu: [
             {
                 href: "/course/contents/proyecto/parte1",
-                label: "Parte 1",
+                label: "1. Scaffolding ",
                 date: '2024-3-15',
             },
             {
-                href: "/course/contents/proyecto/parte1",
-                label: "Parte 2",
+                href: "/course/contents/proyecto/parte2",
+                label: "2. API",
+                date: '2024-3-15',
+            },
+            {
+                href: "/course/contents/proyecto/parte3",
+                label: "3. Pages",
+                date: '2024-3-15',
+            },
+            {
+                href: "/course/contents/proyecto/parte4",
+                label: "4. Views",
+                date: '2024-3-15',
+            },
+            {
+                href: "/course/contents/proyecto/parte5",
+                label: "5. Models",
                 date: '2024-3-15',
             },
         ]
     },    
+    
 ]

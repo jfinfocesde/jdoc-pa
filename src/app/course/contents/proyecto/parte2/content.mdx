@@ -1,14 +1,174 @@
-import { Image } from 'antd';
+# Api Controller
 
-# Pacto pedagógico
+## Archivo auth.controller.ts
 
-El pacto pedagógico es un acuerdo que se establece entre el docente y los estudiantes al inicio de un curso, con el fin de establecer las normas, expectativas, responsabilidades y compromisos de todas las partes involucradas en el proceso de enseñanza-aprendizaje.
+```typescript
+import { NextFunction, Request, Response } from "express";
+import User from "../../models/user.model";
+import jwt from "jsonwebtoken";
 
+export const apiRegister = async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "Email already exists" });
+  }
+  const newUser = new User({ name, email, password });
+  await newUser.save();
+  const token = jwt.sign(
+    { _id: newUser._id },
+    process.env.JWT_SECRET as string,
+    { expiresIn: "30d" }
+  );
+  res.json({ token });
+};
 
- <Image
-    style={{borderRadius:10}}
-    preview={false}
-    width={'100%'}
-    src="https://www.ceupe.com/images/cabeceras/alianzas.jpg"
-  />
+export const apiLogin = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user || !(await user.comparePassword(password))) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, {
+    expiresIn: "30d",
+  });
+  res.cookie("authcookie", token, { maxAge: 900000, httpOnly: true });
+  res.status(200).send("ok");
+};
 
+export const apiLogout = (req: Request, res: Response) => {
+  res.clearCookie("authcookie");
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.cookies.authcookie;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+    next();
+  } catch (error) {
+    res.status(403).json({ message: "Invalid token" });
+  }
+};
+```
+
+## Archivo user.controller.ts
+
+```typescript
+import { Request, Response } from "express";
+import User from "../../models/user.model";
+
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).send("Error al crear el usuario");
+  }
+};
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password, avatar } = req.body;
+    const user = new User({ name, email, password, avatar });
+    await user.save();
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).send("Error al crear el usuario");
+  }
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send("Error al obtener el usuario");
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, email, avatar } = req.body;
+    const user = await User.findByIdAndUpdate(id, { name, email, avatar });
+    res.status(200).json(user);
+  } catch (error) {
+    return res.status(404).send("Usuario no encontrada");
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await User.findByIdAndDelete(id);
+    res.status(204).send();
+  } catch (error) {
+    return res.status(404).send("Usuario no encontrada");
+  }
+};
+```
+
+# Api Rutes
+
+## Archivo api.routes.ts
+
+```typescript
+import express from "express";
+import authRoutes from "./auth.routes";
+import userRoutes from "./auth.routes";
+
+const router = express.Router();
+
+router.use("/auth", authRoutes);
+router.use("/user", userRoutes);
+
+export default router;
+```
+
+## Archivo auth.routes.ts
+
+```typescript
+import express from "express";
+import {
+  apiLogin,
+  apiLogout,
+  apiRegister,
+} from "../controllers/auth.controller";
+
+const router = express.Router();
+
+router.post("/register", apiRegister);
+router.post("/login", apiLogin);
+router.get("/logout", apiLogout);
+
+export default router;
+```
+
+## Archivo user.routes.ts
+
+```typescript
+import express from "express";
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  getUsers,
+  updateUser,
+} from "../controllers/user.controller";
+import { verifyJWT } from "../controllers/auth.controller";
+
+const router = express.Router();
+
+router.get("/", verifyJWT, getUsers);
+router.post("/", verifyJWT, createUser);
+router.get("/:id", verifyJWT, getUser);
+router.put("/:id", verifyJWT, updateUser);
+router.delete("/:id", verifyJWT, deleteUser);
+
+export default router;
+```
