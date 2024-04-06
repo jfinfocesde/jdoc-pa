@@ -159,6 +159,8 @@ import User from './model';
 
 const app = express();
 const port = 3000;
+app.use(express.json()); // Usar express.json() en lugar de bodyParser.json()
+app.use(express.urlencoded({ extended: true }));
 
 // Ejemplo de operaciones CRUD
 
@@ -232,4 +234,34 @@ app.listen(port, () => {
 ```bash
 npx tsc
 node dist/server.js
+```
+
+
+## **7\. package.json:**
+
+```json
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch src --exec ts-node src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.12.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
 ```
