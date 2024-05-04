@@ -1,0 +1,250 @@
+# Motor de plantillas EJS
+
+## **¿Qué es EJS?**
+
+EJS (Embedded JavaScript Templates) es un motor de plantillas simple y potente para Node.js que te permite generar marcado HTML dinámico utilizando código JavaScript. Es una alternativa popular a otros motores de plantillas como Pug y Handlebars.
+
+## **¿Por qué usar EJS?**
+
+EJS ofrece varias ventajas sobre otros motores de plantillas:
+
+-   **Fácil de aprender y usar:** La sintaxis de EJS es similar a HTML, lo que la hace fácil de aprender incluso para principiantes.
+-   **Potente y flexible:** EJS te permite usar código JavaScript dentro de tus plantillas para generar contenido dinámico y complejo.
+-   **Extensible:** EJS tiene una amplia comunidad y un ecosistema de complementos que te permiten extender sus funcionalidades.
+## **¿Cómo usar EJS?**
+
+Para usar EJS, primero debes instalarlo usando npm o yarn:
+
+```bash
+npm install ejs
+```
+
+Una vez instalado EJS, puedes empezar a crear plantillas. Las plantillas EJS son archivos con la extensión `.ejs` que contienen código HTML y JavaScript.
+
+## **Ejemplo de plantilla EJS**
+
+El siguiente ejemplo muestra una plantilla EJS simple que genera una lista de elementos:
+
+HTML
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de elementos</title>
+</head>
+<body>
+  <h1>Lista de elementos</h1>
+  <ul>
+    <% for (const elemento of elementos) { %>
+      <li><%= elemento %></li>
+    <% } %>
+  </ul>
+</body>
+</html>
+```
+
+En este ejemplo, la variable `elementos` es un array de strings. El bucle `for` itera sobre el array y genera un elemento de lista `<li>` para cada elemento. El símbolo `<%=` se utiliza para insertar código JavaScript en la plantilla.
+
+
+# Proyecto básico de Express con EJS
+
+## Paso 1: Inicializar el proyecto
+
+1.  Crea una nueva carpeta para tu proyecto y navega hasta ella en tu terminal.
+2.  Inicializa un proyecto Node.js usando npm o yarn:
+
+```bash
+npm init -y
+```
+
+3.  Instala Express y EJS:
+
+```bash
+npm install express ejs
+```
+
+## Paso 2: Crear la estructura básica del proyecto
+
+1.  Crea las siguientes carpetas en la raíz de tu proyecto:
+
+```
+- controllers
+- views
+```
+
+2.  Crea un archivo `app.js` en la raíz del proyecto.
+3.  Crea un archivo `index.ejs` dentro de la carpeta `views`.
+
+## Paso 3: Configurar Express
+
+En el archivo `app.js`, agrega el siguiente código:
+
+```javascript
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.get('/', (req, res) => {
+  const nombre = 'Mundo';
+  res.render('index', { nombre });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en el puerto ${port}`);
+});
+```
+
+### Paso 4: Crear la vista EJS
+
+En el archivo `index.ejs`, agrega el siguiente código:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hola, Mundo!</title>
+</head>
+<body>
+  <h1>Hola, <%= nombre %>!</h1>
+</body>
+</html>
+```
+
+## Paso 5: Ejecutar el proyecto
+
+1.  En tu terminal, ejecuta el siguiente comando para iniciar el servidor:
+
+```bash
+node app.js
+```
+
+2.  Abre tu navegador web y ve a `http://localhost:3000`. Deberías ver el mensaje "Hola, Mundo!".
+
+## **Explicación del código:**
+
+-   El código anterior crea una aplicación Express básica y configura EJS como motor de plantillas.
+-   La ruta principal (`/`) renderiza la vista `index.ejs` y pasa la variable `nombre` a la plantilla.
+-   La plantilla EJS utiliza la sintaxis `<%= nombre %>` para insertar el valor de la variable `nombre` en el HTML.
+
+# Agregando un arreglo de objetos a EJS
+
+En el tutorial anterior, creamos un proyecto básico de Express con EJS que renderizaba un simple mensaje de saludo. En este tutorial, vamos a mejorar el proyecto para que pueda pasar y mostrar un arreglo de objetos desde Express a una plantilla EJS.
+
+## Paso 1: Modificar el archivo `app.js`
+
+1.  En el archivo `app.js`, agrega un arreglo de objetos que contengan los datos que deseas mostrar en la plantilla EJS:
+
+```javascript
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+const personas = [
+  { nombre: 'Juan', apellido: 'Pérez', edad: 30 },
+  { nombre: 'Ana', apellido: 'López', edad: 25 },
+  { nombre: 'Carlos', apellido: 'Gómez', edad: 40 },
+];
+
+app.get('/', (req, res) => {
+  res.render('index', { personas });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en el puerto ${port}`);
+});
+```
+
+En este ejemplo, el arreglo `personas` contiene tres objetos, cada uno con las propiedades `nombre`, `apellido` y `edad`.
+
+## Paso 2: Modificar la vista `index.ejs`
+
+2.  En el archivo `index.ejs`, modifica el código HTML para iterar sobre el arreglo de objetos y mostrar la información de cada persona:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de personas</title>
+</head>
+<body>
+  <h1>Lista de personas</h1>
+  <ul>
+    <% for (const persona of personas) { %>
+      <li>
+        Nombre: <%= persona.nombre %> <%= persona.apellido %>
+        - Edad: <%= persona.edad %>
+      </li>
+    <% } %>
+  </ul>
+</body>
+</html>
+```
+
+En este código, el bucle `for` itera sobre el arreglo `personas` y para cada objeto, genera un elemento de lista `<li>` con la información de la persona.
+
+## Paso 3: Ejecutar el proyecto
+
+1.  Guarda los cambios en los archivos `app.js` y `index.ejs`.
+2.  En tu terminal, ejecuta el siguiente comando para reiniciar el servidor:
+
+```bash
+node app.js
+```
+
+3.  Abre tu navegador web y ve a `http://localhost:3000`. Deberías ver una lista con el nombre, apellido y edad de cada persona del arreglo.
+**Explicación de los cambios:**
+
+-   En el archivo `app.js`, se agregó el arreglo `personas` que contiene los datos de las personas.
+-   Se pasa el arreglo `personas` a la vista EJS usando la propiedad `personas` del objeto que se pasa al método `render()`.
+-   En la vista EJS, se utiliza un bucle `for` para iterar sobre el arreglo `personas` y mostrar la información de cada persona.
+
+## Paso 4: Modificando el HTML con un diseño Tailwind
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de personas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center">Lista de personas</h1>
+
+    <ul class="mt-6">
+      <% for (const persona of personas) { %>
+        <li class="flex items-center p-4 border-bottom shadow-sm">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-400 text-center p-1">
+            <span class="text-white font-bold">
+              <%= persona.nombre[0] %>
+            </span>
+          </div>
+
+          <div class="ml-4 flex flex-col">
+            <span class="text-lg font-medium">
+              <%= persona.nombre %>
+                <%= persona.apellido %>
+            </span>
+            <span class="text-gray-500">Edad: <%= persona.edad %></span>
+          </div>
+        </li>
+        <% } %>
+    </ul>
+  </div>
+</body>
+
+</html>
+```
